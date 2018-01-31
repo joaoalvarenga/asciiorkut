@@ -1,0 +1,6 @@
+{
+  "dbHost": "localhost",
+  "dbUser": "root",
+  "dbPassword": "",
+  "dbDatabase": "orkut"
+}

@@ -142,9 +142,15 @@ def search_users():
     nome = input()
     if nome == '-1':
         return
-    users = SearchService.search_users(nome)
-    print(users)
+    users = (SearchService.search_users(nome))
+    # known bug: searching for white space should return all users
+    output = '\n'.join(['{}. {}'.format(id, nome) for id, nome in enumerate(users)])
+    print(output)
 
+    print(str(len(users)) + '. Voltar')
+    print('--------------------------------------------------------------------------------')
+    op = get_op((0, (len(users))))
+    print("TODO :/")
 
 def login():
     os.system('reset')
@@ -180,7 +186,7 @@ def home():
     print('------------------------------ MENU ------------------------------')
     print('1. Meu perfil')
     print('2. Minhas publicações')
-    print('3. Pesquisar amigos')
+    print('3. Pesquisar usuarios')
     print('4. Sair')
     print('-------------------------------------------------------------------')
     op = get_op((1, 4))

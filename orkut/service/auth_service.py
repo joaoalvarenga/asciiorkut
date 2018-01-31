@@ -24,3 +24,13 @@ class AuthService(object):
         u.save()
         AuthService.__CURRENT_USER = u
 
+    @staticmethod
+    def change_current_user_password(old, new):
+        if AuthService.__CURRENT_USER:
+            if old == AuthService.__CURRENT_USER.password:
+                AuthService.__CURRENT_USER.password = new
+                AuthService.__CURRENT_USER.save()
+                return True
+
+        return False
+

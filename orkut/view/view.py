@@ -52,6 +52,29 @@ def signup():
     AuthService.signup(name, email, password, gender, birthdate)
 
 
+def change_password():
+    os.system('reset')
+    print_header()
+    print('------------------------------ MEU PERFIL ------------------------------')
+    print('Digite sua senha antiga')
+    old = input()
+    print('Digite a nova senha')
+    new = input()
+    if not AuthService.change_current_user_password(old, new):
+        print('Senha antiga incorreta')
+        print('--------------------------------------------------------------------------------')
+        print('1. Tentar novamente')
+        print('2. Voltar')
+        print('--------------------------------------------------------------------------------')
+        op = get_op((1, 2))
+
+        if op == 1:
+            change_password()
+            return
+
+    my_profile()
+
+
 def my_profile():
     os.system('reset')
     print_header()
@@ -63,11 +86,16 @@ def my_profile():
     print('Email: {}'.format(user.email))
     print('Quantidade de amigos: {}'.format(len(user.friends)))
     print('------------------------------------------------------------------------')
-    print('1. Voltar')
+    print('1. Mudar senha')
+    print('2. Voltar')
     print('--------------------------------------------------------------------------------')
-    op = get_op((1, 1))
+    op = get_op((1, 2))
 
     if op == 1:
+        change_password()
+        return
+
+    elif op == 2:
         home()
         return
 

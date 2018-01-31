@@ -30,6 +30,11 @@ class UserModel(object):
                 cursor.execute('SELECT LAST_INSERT_ID();')
                 self.id = cursor.fetchone()[0]
             Config().get_db_connection().commit()
+        else:
+            with Config().get_db_connection().cursor() as cursor:
+                cursor.execute('UPDATE usuarios SET email="{}", nome="{}", data_nascimento="{}", sexo="{}", senha="{}" WHERE usuarios.codigo = {}'
+                               .format(self.email, self.name, self.birthdate, self.gender, self.password, self.id))
+            Config().get_db_connection().commit()
         return self.id
 
     @staticmethod

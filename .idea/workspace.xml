@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="734b2432-1337-4332-8801-d80912d5f233" name="Default" comment="" />
+    <list default="true" id="734b2432-1337-4332-8801-d80912d5f233" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/banco.sql" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,11 +58,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
               <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="banco.sql" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/banco.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2958">
+              <caret line="174" column="33" lean-forward="false" selection-start-line="174" selection-start-column="33" selection-end-line="174" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -108,7 +121,7 @@
       <file leaf-file-name="user_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/orkut/model/user_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="68">
               <caret line="24" column="39" lean-forward="false" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
               <folding>
                 <marker date="1517424067158" expanded="true" signature="590:621" ph="INSERT INTO atores... " />
@@ -188,6 +201,7 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/orkut/view/view.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/banco.sql" />
       </list>
     </option>
   </component>
@@ -197,7 +211,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-21" />
     <option name="y" value="35" />
     <option name="width" value="1330" />
@@ -225,6 +239,17 @@
             <path>
               <item name="asciiorkut" type="b2602c69:ProjectViewProjectNode" />
               <item name="asciiorkut" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="asciiorkut" type="b2602c69:ProjectViewProjectNode" />
+              <item name="asciiorkut" type="462c0819:PsiDirectoryNode" />
+              <item name="orkut" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="asciiorkut" type="b2602c69:ProjectViewProjectNode" />
+              <item name="asciiorkut" type="462c0819:PsiDirectoryNode" />
+              <item name="orkut" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -318,14 +343,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-21" y="35" width="1368" height="741" extended-state="7" />
+    <frame x="-21" y="35" width="1368" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47507787" sideWeight="0.50292826" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47507787" sideWeight="0.49707174" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32917318" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32917318" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -554,33 +580,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/orkut/model/user_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="39" lean-forward="false" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
-          <folding>
-            <marker date="1517424067158" expanded="true" signature="590:621" ph="INSERT INTO atores... " />
-            <marker date="1517424067158" expanded="true" signature="590:679" ph="INSERT INTO atores... " />
-            <marker date="1517424067158" expanded="true" signature="656:679" ph="SELECT LAST_... " />
-            <marker date="1517424067158" expanded="true" signature="766:802" ph="INSERT INTO publicaveis... " />
-            <marker date="1517424067158" expanded="true" signature="766:860" ph="INSERT INTO publicaveis... " />
-            <marker date="1517424067158" expanded="true" signature="837:860" ph="SELECT LAST_... " />
-            <marker date="1517424067158" expanded="true" signature="952:1045" ph="INSERT INTO usuarios... " />
-            <marker date="1517424067158" expanded="true" signature="952:1086" ph="INSERT INTO usuarios... " />
-            <marker date="1517424067158" expanded="true" signature="952:1123" ph="INSERT INTO usuarios... " />
-            <marker date="1517424067158" expanded="true" signature="1611:1745" ph="SELECT * FRO... usuarios" />
-            <marker date="1517424067158" expanded="true" signature="1611:1817" ph="SELECT * FRO... usuarios" />
-            <marker date="1517424067158" expanded="true" signature="1611:1819" ph="SELECT * FRO... usuarios" />
-            <marker date="1517424067158" expanded="true" signature="1611:1867" ph="SELECT * FRO... usuarios" />
-            <marker date="1517424067158" expanded="true" signature="2282:2467" ph="SELECT * FRO... usuario" />
-            <marker date="1517424067158" expanded="true" signature="2282:2469" ph="SELECT * FRO... usuario" />
-            <marker date="1517424067158" expanded="true" signature="2282:2492" ph="SELECT * FRO... usuario" />
-            <marker date="1517424067158" expanded="true" signature="2282:2495" ph="SELECT * FRO... usuario" />
-            <marker date="1517424067158" expanded="true" signature="2282:2499" ph="SELECT * FRO... usuario" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/orkut/utils/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -638,6 +637,41 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/orkut/model/user_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="24" column="39" lean-forward="false" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+          <folding>
+            <marker date="1517424067158" expanded="true" signature="590:621" ph="INSERT INTO atores... " />
+            <marker date="1517424067158" expanded="true" signature="590:679" ph="INSERT INTO atores... " />
+            <marker date="1517424067158" expanded="true" signature="656:679" ph="SELECT LAST_... " />
+            <marker date="1517424067158" expanded="true" signature="766:802" ph="INSERT INTO publicaveis... " />
+            <marker date="1517424067158" expanded="true" signature="766:860" ph="INSERT INTO publicaveis... " />
+            <marker date="1517424067158" expanded="true" signature="837:860" ph="SELECT LAST_... " />
+            <marker date="1517424067158" expanded="true" signature="952:1045" ph="INSERT INTO usuarios... " />
+            <marker date="1517424067158" expanded="true" signature="952:1086" ph="INSERT INTO usuarios... " />
+            <marker date="1517424067158" expanded="true" signature="952:1123" ph="INSERT INTO usuarios... " />
+            <marker date="1517424067158" expanded="true" signature="1611:1745" ph="SELECT * FRO... usuarios" />
+            <marker date="1517424067158" expanded="true" signature="1611:1817" ph="SELECT * FRO... usuarios" />
+            <marker date="1517424067158" expanded="true" signature="1611:1819" ph="SELECT * FRO... usuarios" />
+            <marker date="1517424067158" expanded="true" signature="1611:1867" ph="SELECT * FRO... usuarios" />
+            <marker date="1517424067158" expanded="true" signature="2282:2467" ph="SELECT * FRO... usuario" />
+            <marker date="1517424067158" expanded="true" signature="2282:2469" ph="SELECT * FRO... usuario" />
+            <marker date="1517424067158" expanded="true" signature="2282:2492" ph="SELECT * FRO... usuario" />
+            <marker date="1517424067158" expanded="true" signature="2282:2495" ph="SELECT * FRO... usuario" />
+            <marker date="1517424067158" expanded="true" signature="2282:2499" ph="SELECT * FRO... usuario" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/banco.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2958">
+          <caret line="174" column="33" lean-forward="false" selection-start-line="174" selection-start-column="33" selection-end-line="174" selection-end-column="33" />
           <folding />
         </state>
       </provider>

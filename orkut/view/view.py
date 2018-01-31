@@ -1,6 +1,6 @@
 import os
 
-from orkut.service import AuthService, PostService
+from orkut.service import AuthService, PostService, SearchService
 from orkut.utils.utils import is_valid_email, is_valid_gender, is_valid_birthdate, check_isdigit_interval
 
 
@@ -162,6 +162,23 @@ def new_post():
     my_posts()
     return
 
+def search_users():
+    os.system('reset')
+    print_header()
+    print('------------------------------ PESQUISA ---------------------------')
+    print('Digite o nome do usuario que deseja procurar (ou -1 pra voltar):')
+    nome = input()
+    if nome == '-1':
+        return
+    users = (SearchService.search_users(nome))
+    # known bug: searching for white space should return all users
+    output = '\n'.join(['{}. {}'.format(id, nome) for id, nome in enumerate(users)])
+    print(output)
+
+    print(str(len(users)) + '. Voltar')
+    print('--------------------------------------------------------------------------------')
+    op = get_op((0, (len(users))))
+    print("TODO :/")
 
 def login():
     os.system('reset')
@@ -197,15 +214,20 @@ def home():
     print('------------------------------ MENU ------------------------------')
     print('1. Meu perfil')
     print('2. Minhas publicações')
-    print('3. Sair')
+    print('3. Pesquisar usuarios')
+    print('4. Sair')
     print('-------------------------------------------------------------------')
-    op = get_op((1, 3))
+    op = get_op((1, 4))
     if op == 1:
         my_profile()
         return
 
     elif op == 2:
         my_posts()
+        return
+
+    elif op == 3:
+        search_users()
         return
 
 

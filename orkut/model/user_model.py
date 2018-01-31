@@ -49,6 +49,13 @@ class UserModel(object):
                                 publishable=u[7])
 
     @staticmethod
+    def find_users(name):
+        with Config().get_db_connection().cursor() as cursor:
+            cursor.execute('SELECT nome FROM usuarios WHERE UPPER(nome) LIKE UPPER(\'%{}%\')'.format(name))
+            u = cursor.fetchone()
+            return u
+
+    @staticmethod
     def find_by_email_and_password(email, password):
         with Config().get_db_connection().cursor() as cursor:
             cursor.execute('SELECT codigo, email, nome, data_nascimento, sexo, senha, codigo_ator, codigo_publicavel '

@@ -15,6 +15,7 @@ class PostService(object):
     def insert_post(content):
         if AuthService.get_current_user():
             PostModel(created_at=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), content=content,
-                      actor=AuthService.get_current_user().actor).save()
+                      actor=AuthService.get_current_user().actor,
+                      publishable=AuthService.get_current_user().publishable).save()
             return True
         return False

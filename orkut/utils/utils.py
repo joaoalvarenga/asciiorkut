@@ -1,6 +1,6 @@
 def check_isdigit_interval(op, interval):
     if op.isdigit():
-        return (interval[0] <= int(op) <= interval[1])
+        return interval[0] <= int(op) <= interval[1]
     return False
 
 

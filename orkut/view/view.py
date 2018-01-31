@@ -52,16 +52,37 @@ def signup():
     AuthService.signup(name, email, password, gender, birthdate)
 
 
+def my_profile():
+    os.system('reset')
+    print_header()
+    print('------------------------------ MEU PERFIL ------------------------------')
+    user = AuthService.get_current_user()
+    print(user.name)
+    print('Data de Nascimento: {}'.format(user.birthdate))
+    print('Sexo: {}'.format({'M': 'masculino', 'F': 'feminino'}[user.gender]))
+    print('Email: {}'.format(user.email))
+    print('Quantidade de amigos: {}'.format(len(user.friends)))
+    print('------------------------------------------------------------------------')
+    print('1. Voltar')
+    print('--------------------------------------------------------------------------------')
+    op = get_op((1, 1))
+
+    if op == 1:
+        home()
+        return
+
+
 def my_posts():
     os.system('reset')
     print_header()
     print('------------------------------ MINHAS PUBLICACOES ------------------------------')
     output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in
                           PostService.get_posts_from_current_user()])
+    print(output)
     print('--------------------------------------------------------------------------------')
     print('1. Nova publicação')
     print('2. Voltar')
-    print('-------------------------------------------------------------------')
+    print('--------------------------------------------------------------------------------')
     op = get_op((1, 2))
 
     if op == 1:
@@ -124,7 +145,7 @@ def home():
     print('-------------------------------------------------------------------')
     op = get_op((1, 3))
     if op == 1:
-        home()
+        my_profile()
         return
 
     elif op == 2:

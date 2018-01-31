@@ -89,7 +89,7 @@ def list_friends():
         print('{}-{}. Para entrar no perfil de amigo'.format(2, len(friends)+2))
         op = get_op((1, len(friends)+2))
         if op == 1:
-            pass
+            my_profile()
         else:
             my_profile()
     else:

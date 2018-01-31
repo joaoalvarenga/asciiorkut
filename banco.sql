@@ -77,12 +77,12 @@ create table `eventos` (
 
 create table `publicacoes` (
 	`codigo` int(10) not null AUTO_INCREMENT,
-	`data_publicacao` date not null,
+	`data_publicacao` datetime not null,
 	`conteudo` varchar(100) not null,
 	`codigo_ator` int(10) not null,
 	`codigo_publicavel` int(10) not null,
 	`codigo_interativo` int(10) not null,
-	`codigo_pertence` int(10) not null,
+	`codigo_pertence` int(10),
 	primary key(`codigo`),
 	FOREIGN KEY (`codigo_publicavel`) REFERENCES `publicaveis`(`codigo`) ON DELETE CASCADE,
 	FOREIGN KEY (`codigo_interativo`) REFERENCES `interativos`(`codigo`) ON DELETE CASCADE,

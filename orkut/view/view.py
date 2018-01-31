@@ -23,7 +23,7 @@ def get_op(interval):
 def signup():
     os.system('reset')
     print_header()
-    print('------------------------------ LOGIN ------------------------------')
+    print('------------------------------ CADASTRO ------------------------------')
     print('Digite seu nome: ')
     name = input()
 
@@ -50,6 +50,7 @@ def signup():
     print('-------------------------------------------------------------------')
 
     AuthService.signup(name, email, password, gender, birthdate)
+    home()
 
 
 def change_password():
@@ -75,6 +76,28 @@ def change_password():
     my_profile()
 
 
+def list_friends():
+    os.system('reset')
+    print_header()
+    print('------------------------------ AMIGOS ------------------------------')
+    friends = AuthService.get_current_user().friends
+    output = '\n\n'.join(['{}. {}'.format(i+2, friend.name) for i, friend in enumerate(friends)])
+    print(output)
+    print('--------------------------------------------------------------------')
+    print('1. Voltar')
+    if len(friends) > 0:
+        print('{}-{}. Para entrar no perfil de amigo'.format(2, len(friends)+2))
+        op = get_op((1, len(friends)+2))
+        if op == 1:
+            my_profile()
+        else:
+            my_profile()
+    else:
+        op = get_op((1, 1))
+        if op == 1:
+            my_profile()
+
+
 def my_profile():
     os.system('reset')
     print_header()
@@ -86,16 +109,21 @@ def my_profile():
     print('Email: {}'.format(user.email))
     print('Quantidade de amigos: {}'.format(len(user.friends)))
     print('------------------------------------------------------------------------')
-    print('1. Mudar senha')
-    print('2. Voltar')
+    print('1. Listar Amigos')
+    print('2. Mudar senha')
+    print('3. Voltar')
     print('--------------------------------------------------------------------------------')
-    op = get_op((1, 2))
+    op = get_op((1, 3))
 
     if op == 1:
-        change_password()
+        list_friends()
         return
 
     elif op == 2:
+        change_password()
+        return
+
+    elif op == 3:
         home()
         return
 

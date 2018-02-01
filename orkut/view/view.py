@@ -2,7 +2,7 @@
 
 import os
 
-from orkut.service import AuthService, PostService, SearchService
+from orkut.service import AuthService, PostService, SearchService, InteractionService
 from orkut.utils.utils import is_valid_email, is_valid_gender, is_valid_birthdate, check_isdigit_interval
 
 SYSTEM_CONST = 'clear'
@@ -134,7 +134,7 @@ def show_profile(user):
     print('\nUltimas publicacoes:\n')
     last_posts = PostService.get_last_five_posts_from_actor(user.actor)
     output = '\n\n'.join(
-        ['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in last_posts])
+        ['Postado em: {}\nConteúdo: {}\nCurtidas: {}'.format(post.created_at, post.content, post.likes) for post in last_posts])
     print(output + '\n')
     is_friend = AuthService.is_friend(user)
     print('------------------------------------------------------------------------')
@@ -143,12 +143,10 @@ def show_profile(user):
         print('2. Tornar amigo')
         print('3. Voltar')
     else:
-        print('2. Voltar')
+        print('2. Curtir publicação')
+        print('3. Voltar')
     print('--------------------------------------------------------------------------------')
-    if is_friend:
-        op = get_op((1, 2))
-    else:
-        op = get_op((1, 3))
+    op = get_op((1, 3))
 
     if op == 1:
         list_friends(user)
@@ -158,6 +156,10 @@ def show_profile(user):
             if op == 2:
                 AuthService.make_friendship(AuthService.get_current_user(), user)
                 show_profile(user)
+                return
+        else:
+            if op == 2:
+                like_posts(user)
                 return
 
         home()
@@ -182,6 +184,28 @@ def list_friends(user):
     else:
         friends[op].friends = AuthService.get_friends(friends[op])
         show_profile(friends[op])
+        return
+
+
+def like_posts(user):
+    os.system(SYSTEM_CONST)
+    print_header()
+    print('------------------------------ PUBLICAÇÕES ------------------------------')
+    posts = list(PostService.get_posts_from_user(user))
+    output = '\n\n'.join(
+        ['{}. Postado em: {}\nConteúdo: {}'.format(i, post.created_at, post.content) for i, post in enumerate(posts)])
+    print(output)
+    print('------------------------------------------------------------------------')
+    print(str(len(posts)) + '. Voltar')
+    print('Escolha uma publicação para curtir')
+    op = get_op((0, len(posts)))
+
+    if op >= len(posts):
+        show_profile(user)
+        return
+    else:
+        InteractionService.like_post(posts[op])
+        like_posts(user)
         return
 
 
@@ -219,8 +243,9 @@ def my_posts():
     os.system(SYSTEM_CONST)
     print_header()
     print('---------------------- MINHAS PUBLICACOES -------------------------')
-    output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in
-                          PostService.get_posts_from_current_user()])
+    output = '\n\n'.join(
+        ['Postado em: {}\nConteúdo: {}\nCurtidas: {}'.format(post.created_at, post.content, post.likes) for post in
+         PostService.get_posts_from_current_user()])
     print(output)
     print('--------------------------------------------------------------------------------')
     print('1. Nova publicação')

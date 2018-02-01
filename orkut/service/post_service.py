@@ -12,6 +12,10 @@ class PostService(object):
         return None
 
     @staticmethod
+    def get_posts_from_user(user):
+        return PostModel.find_by_actor(user.actor)
+
+    @staticmethod
     def get_last_five_posts_from_actor(actor_id):
         return PostModel.find_last_posts_from_actor(actor_id, 5)
 
@@ -23,3 +27,4 @@ class PostService(object):
                       publishable=AuthService.get_current_user().publishable).save()
             return True
         return False
+

@@ -175,7 +175,6 @@ create table `mensagens_grupos` (
 	FOREIGN KEY (`codigo_usuario`) REFERENCES `usuarios`(`codigo`) ON DELETE CASCADE
 );
 
-
 INSERT INTO atores VALUES (1);
 
 INSERT INTO publicaveis VALUES (1);

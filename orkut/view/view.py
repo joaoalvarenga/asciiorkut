@@ -83,10 +83,20 @@ def list_friends():
     print_header()
     print('------------------------------ AMIGOS ------------------------------')
     friends = AuthService.get_current_user().friends
-    output = '\n\n'.join(['{}. {}'.format(i+2, friend.name) for i, friend in enumerate(friends)])
+    output = '\n'.join(['{}. {}'.format(i, friend.name) for i, friend in enumerate(friends)])
     print(output)
+    print(str(len(friends)) + '. Voltar')
     print('--------------------------------------------------------------------')
-    print('1. Voltar')
+    print('Escolha um perfil para exibir')
+    op = get_op((0,len(friends)))
+
+    if op >= len(friends):
+        my_profile()
+        return
+    else:
+        print('{} {} {}'.format(friends[op].name, friends[op].birthdate, friends[op].gender))
+
+
     if len(friends) > 0:
         print('{}-{}. Para entrar no perfil de amigo'.format(2, len(friends)+2))
         op = get_op((1, len(friends)+2))

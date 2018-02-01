@@ -52,11 +52,10 @@ class UserModel(object):
     @staticmethod
     def find_friends(uid):
         with Config().get_db_connection().cursor() as cursor:
-            cursor.execute('SELECT codigo, email, nome, data_nascimento, sexo, senha, codigo_ator, codigo_publicavel '
-                           'FROM (usuarios JOIN sao_amigos ON '
-                           'sao_amigos.codigo_usuario_1 = usuarios.codigo OR '
-                           'sao_amigos.codigo_usuario_2 = usuarios.codigo)'
-                           'WHERE usuarios.codigo != {}'.format(uid))
+            cursor.execute('SELECT u.codigo, u.email, u.nome, u.data_nascimento, u.sexo, u.senha, u.codigo_ator, u.codigo_publicavel '
+                           'FROM usuarios as u WHERE u.codigo IN'
+                           '(SELECT s.codigo_usuario_2 from sao_amigos as s'
+                           ' WHERE s.codigo_usuario_1 = {})'.format(uid))
             for u in cursor.fetchall():
                 yield UserModel(id=u[0], email=u[1], name=u[2], birthdate=u[3], gender=u[4], password=u[5], actor=u[6],
                                 publishable=u[7])

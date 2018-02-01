@@ -38,4 +38,13 @@ class AuthService(object):
 
         return False
 
+    @staticmethod
+    def make_friendship(friend1, friend2):
+        if AuthService.get_current_user:
+            # gambiarra pra facilitar a pesquisa por amigos
+            flag1 = UserModel.make_friendship(friend1, friend2)
+            flag2 = UserModel.make_friendship(friend2, friend1)
+            return flag1 and flag2
+
+        return False
 

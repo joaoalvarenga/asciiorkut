@@ -12,6 +12,11 @@ class PostService(object):
         return None
 
     @staticmethod
+    def get_last_five_posts_from_actor(actor_id):
+        #TODO: retornar apenas 5 publicacoes
+        return PostModel.find_by_actor(actor_id)
+
+    @staticmethod
     def insert_post(content):
         if AuthService.get_current_user():
             PostModel(created_at=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), content=content,

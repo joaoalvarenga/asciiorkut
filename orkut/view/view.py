@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 from orkut.service import AuthService, PostService, SearchService
@@ -118,21 +120,41 @@ def list_friends():
     print_header()
     print('------------------------------ AMIGOS ------------------------------')
     friends = AuthService.get_current_user().friends
-    output = '\n\n'.join(['{}. {}'.format(i+2, friend.name) for i, friend in enumerate(friends)])
+    output = '\n'.join(['{}. {}'.format(i, friend.name) for i, friend in enumerate(friends)])
     print(output)
+    print(str(len(friends)) + '. Voltar')
     print('--------------------------------------------------------------------')
-    print('1. Voltar')
-    if len(friends) > 0:
-        print('{}-{}. Para entrar no perfil de amigo'.format(2, len(friends)+2))
-        op = get_op((1, len(friends)+2))
+    print('Escolha um perfil para exibir')
+    op = get_op((0,len(friends)))
+
+    if op >= len(friends):
+        my_profile()
+        return
+    else:
+        # exibindo perfil
+        os.system('reset')
+        print_header()
+        friend = friends[op]
+        print(friend.name)
+        print('Data de Nascimento: {}'.format(friend.birthdate))
+        print('Sexo: {}'.format({'M': 'masculino', 'F': 'feminino'}[friend.gender]))
+        print('Email: {}'.format(friend.email))
+        print('\nUltimas publicacoes:\n')
+        last_posts = PostService.get_last_five_posts_from_actor(friend.actor)
+        output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in last_posts])
+        print(output + '\n')
+        print('------------------------------------------------------------------------')
+        print('1. Ver amigos')
+        print('2. Voltar')
+        print('--------------------------------------------------------------------------------')
+        op = get_op((1, 2))
+
         if op == 1:
-            my_profile()
+            list_friends()
+            return
         else:
             my_profile()
-    else:
-        op = get_op((1, 1))
-        if op == 1:
-            my_profile()
+            return
 
 
 def my_profile():
@@ -199,6 +221,7 @@ def new_post():
     my_posts()
     return
 
+
 def search_users():
     os.system('reset')
     print_header()
@@ -206,16 +229,29 @@ def search_users():
     print('Digite o nome do usuario que deseja procurar (ou -1 pra voltar):')
     nome = input()
     if nome == '-1':
+        home()
         return
+
     users = (SearchService.search_users(nome))
-    # known bug: searching for white space should return all users
-    output = '\n'.join(['{}. {}'.format(id, nome) for id, nome in enumerate(users)])
+    output = '\n'.join(['{}. {}'.format(indice, tuple[1]) for indice, tuple in enumerate(users)])
     print(output)
 
     print(str(len(users)) + '. Voltar')
     print('--------------------------------------------------------------------------------')
     op = get_op((0, (len(users))))
-    print("TODO :/")
+
+    if op == str(len(users)):
+        home()
+        return
+
+    elif 0 <= int(op) < len(users):
+        if not AuthService.make_friendship(AuthService.get_current_user().id, users[op][0]):
+            print('Amizade Incompativel')
+
+    else:
+        # invalid input
+        home()
+        return
 
 def login():
     os.system('reset')

@@ -38,12 +38,24 @@ class UserModel(object):
         return self.id
 
     @staticmethod
+    def make_friendship(friend1, friend2):
+        if friend1 == friend2:
+            return False
+
+        with Config().get_db_connection().cursor() as cursor:
+            cursor.execute('INSERT INTO sao_amigos (codigo_usuario_1, codigo_usuario_2) '
+                           'VALUES ("{}", "{}")'.format(friend1, friend2))
+
+        Config().get_db_connection().commit()
+        return True
+
+    @staticmethod
     def find_friends(uid):
         with Config().get_db_connection().cursor() as cursor:
-            cursor.execute('SELECT codigo, email, nome, data_nascimento, sexo, senha, codigo_ator, codigo_publicavel '
-                           'FROM usuarios, sao_amigos '
-                           'WHERE sao_amigos.codigo_usuario_1 = {} AND usuarios.codigo = sao_amigos.codigo_usuario_2'
-                           .format(uid))
+            cursor.execute('SELECT u.codigo, u.email, u.nome, u.data_nascimento, u.sexo, u.senha, u.codigo_ator, u.codigo_publicavel '
+                           'FROM usuarios as u WHERE u.codigo IN'
+                           '(SELECT s.codigo_usuario_2 from sao_amigos as s'
+                           ' WHERE s.codigo_usuario_1 = {})'.format(uid))
             for u in cursor.fetchall():
                 yield UserModel(id=u[0], email=u[1], name=u[2], birthdate=u[3], gender=u[4], password=u[5], actor=u[6],
                                 publishable=u[7])
@@ -51,9 +63,11 @@ class UserModel(object):
     @staticmethod
     def find_users(name):
         with Config().get_db_connection().cursor() as cursor:
-            cursor.execute('SELECT nome FROM usuarios WHERE UPPER(nome) LIKE UPPER(\'%{}%\')'.format(name))
-            u = cursor.fetchone()
-            return u
+            cursor.execute('SELECT codigo, nome FROM usuarios WHERE UPPER(nome) LIKE UPPER(\'%{}%\')'.format(name))
+            list = []
+            for u in cursor.fetchall():
+                list.append((u[0], u[1]))
+            return list
 
     @staticmethod
     def find_by_email_and_password(email, password):

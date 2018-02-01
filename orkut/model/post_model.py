@@ -40,8 +40,23 @@ class PostModel(object):
             cursor.execute('SELECT codigo, data_publicacao, conteudo, codigo_ator, codigo_publicavel, '
                            'codigo_interativo, codigo_pertence '
                            'FROM publicacoes '
-                           'WHERE publicacoes.codigo_ator = {}'
+                           'WHERE publicacoes.codigo_ator = {} '
+                           'ORDER BY data_publicacao DESC '
                            .format(uid))
+            for p in cursor.fetchall():
+                yield PostModel(id=p[0], created_at=p[1], content=p[2], actor=p[3], publishable=p[4], interactable=p[5],
+                                belong=p[6])
+
+    @staticmethod
+    def find_last_posts_from_actor(uid, limit=5):
+        with Config().get_db_connection().cursor() as cursor:
+            cursor.execute('SELECT codigo, data_publicacao, conteudo, codigo_ator, codigo_publicavel, '
+                           'codigo_interativo, codigo_pertence '
+                           'FROM publicacoes '
+                           'WHERE publicacoes.codigo_ator = {} '
+                           'ORDER BY data_publicacao DESC '
+                           'LIMIT {}'
+                           .format(uid, limit))
             for p in cursor.fetchall():
                 yield PostModel(id=p[0], created_at=p[1], content=p[2], actor=p[3], publishable=p[4], interactable=p[5],
                                 belong=p[6])

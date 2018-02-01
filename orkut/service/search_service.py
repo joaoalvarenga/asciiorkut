@@ -1,6 +1,7 @@
 from orkut.service import AuthService
 from orkut.model import UserModel
 
+
 class SearchService(object):
 
     @staticmethod

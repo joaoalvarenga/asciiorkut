@@ -176,3 +176,14 @@ create table `mensagens_grupos` (
 );
 
 
+INSERT INTO atores VALUES (1);
+
+INSERT INTO publicaveis VALUES (1);
+
+INSERT INTO usuarios (email, nome, data_nascimento, sexo, senha, codigo_ator, codigo_publicavel) VALUES ("orkut@orkut.com", "Orkut Büyükkökten", "1975-02-06", "M", "1234", 1, 1);
+
+INSERT INTO atores VALUES (2);
+
+INSERT INTO publicaveis VALUES (2);
+
+INSERT INTO usuarios (email, nome, data_nascimento, sexo, senha, codigo_ator, codigo_publicavel) VALUES ("mark@fb.com", "Mark Elliot Zuckerberg", "1984-04-14", "M", "1234", 2, 2);

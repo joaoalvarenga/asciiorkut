@@ -13,8 +13,7 @@ class PostService(object):
 
     @staticmethod
     def get_last_five_posts_from_actor(actor_id):
-        #TODO: retornar apenas 5 publicacoes
-        return PostModel.find_by_actor(actor_id)
+        return PostModel.find_last_posts_from_actor(actor_id, 5)
 
     @staticmethod
     def insert_post(content):

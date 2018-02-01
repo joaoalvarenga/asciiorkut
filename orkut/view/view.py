@@ -33,59 +33,59 @@ def signup():
     if name == '-1':
         os.system('reset')
         initial()
-       	return
+        return
 
     print('Digite um email: ')
     email = input()
     if email == '-1':
         os.system('reset')
         initial()
-       	return
+        return
 
     while not is_valid_email(email):
         print('Digite um email válido: ')
         email = input()
         if email == '-1':
-        	os.system('reset')
-        	initial()
-       		return
+            os.system('reset')
+            initial()
+            return
 
     print('Digite uma senha: ')
     password = input()
     if password == '-1':
         os.system('reset')
         initial()
-       	return
+        return
 
     print('Digite seu sexo (M ou F): ')
     gender = input()
     if gender == '-1':
         os.system('reset')
         initial()
-       	return
+        return
 
     while not is_valid_gender(gender):
         print('Digite seu sexo válido (M ou F): ')
         gender = input()
         if gender == '-1':
-        	os.system('reset')
-        	initial()
-       		return
+            os.system('reset')
+            initial()
+            return
 
     print('Digite sua data de nascimento (ANO-MES-DIA): ')
     birthdate = input()
     if birthdate == '-1':
         os.system('reset')
         initial()
-       	return
+        return
 
     while not is_valid_birthdate(birthdate):
         print('Digite sua data de nascimento válida (ANO-MES-DIA): ')
         birthdate = input()
         if birthdate == '-1':
-        	os.system('reset')
-        	initial()
-       		return
+            os.system('reset')
+            initial()
+            return
     print('-------------------------------------------------------------------')
 
     AuthService.signup(name, email, password, gender, birthdate)
@@ -115,46 +115,63 @@ def change_password():
     my_profile()
 
 
-def list_friends():
+def show_profile(user):
+    user.friends = AuthService.get_friends(user)
+    os.system('reset')
+    print_header()
+    print(user.name)
+    print('Data de Nascimento: {}'.format(user.birthdate))
+    print('Sexo: {}'.format({'M': 'masculino', 'F': 'feminino'}[user.gender]))
+    print('Email: {}'.format(user.email))
+    print('Quantidade de amigos: {}'.format(len(user.friends)))
+    print('\nUltimas publicacoes:\n')
+    last_posts = PostService.get_last_five_posts_from_actor(user.actor)
+    output = '\n\n'.join(
+        ['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in last_posts])
+    print(output + '\n')
+    print('------------------------------------------------------------------------')
+    print('1. Ver amigos')
+    if not AuthService.is_friend(user):
+        print('2. Tornar amigo')
+        print('3. Voltar')
+    else:
+        print('2. Voltar')
+    print('--------------------------------------------------------------------------------')
+    op = get_op((1, 2))
+
+    if op == 1:
+        list_friends(user)
+        return
+    else:
+        if not AuthService.is_friend(user):
+            if op == 2:
+                AuthService.make_friendship(AuthService.get_current_user(), user)
+                show_profile(user)
+                return
+
+        home()
+        return
+
+
+def list_friends(user):
     os.system('reset')
     print_header()
     print('------------------------------ AMIGOS ------------------------------')
-    friends = AuthService.get_current_user().friends
+    friends = user.friends
     output = '\n'.join(['{}. {}'.format(i, friend.name) for i, friend in enumerate(friends)])
     print(output)
     print(str(len(friends)) + '. Voltar')
     print('--------------------------------------------------------------------')
     print('Escolha um perfil para exibir')
-    op = get_op((0,len(friends)))
+    op = get_op((0, len(friends)))
 
     if op >= len(friends):
-        my_profile()
+        show_profile(user)
         return
     else:
-        # exibindo perfil
-        os.system('reset')
-        print_header()
-        friend = friends[op]
-        print(friend.name)
-        print('Data de Nascimento: {}'.format(friend.birthdate))
-        print('Sexo: {}'.format({'M': 'masculino', 'F': 'feminino'}[friend.gender]))
-        print('Email: {}'.format(friend.email))
-        print('\nUltimas publicacoes:\n')
-        last_posts = PostService.get_last_five_posts_from_actor(friend.actor)
-        output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in last_posts])
-        print(output + '\n')
-        print('------------------------------------------------------------------------')
-        print('1. Ver amigos')
-        print('2. Voltar')
-        print('--------------------------------------------------------------------------------')
-        op = get_op((1, 2))
-
-        if op == 1:
-            list_friends()
-            return
-        else:
-            my_profile()
-            return
+        friends[op].friends = AuthService.get_friends(friends[op])
+        show_profile(friends[op])
+        return
 
 
 def my_profile():
@@ -175,7 +192,7 @@ def my_profile():
     op = get_op((1, 3))
 
     if op == 1:
-        list_friends()
+        list_friends(user)
         return
 
     elif op == 2:
@@ -232,8 +249,8 @@ def search_users():
         home()
         return
 
-    users = (SearchService.search_users(nome))
-    output = '\n'.join(['{}. {}'.format(indice, tuple[1]) for indice, tuple in enumerate(users)])
+    users = list(SearchService.search_users(nome))
+    output = '\n'.join(['{}. {}'.format(i, user.name) for i, user in enumerate(users)])
     print(output)
 
     print(str(len(users)) + '. Voltar')
@@ -245,13 +262,15 @@ def search_users():
         return
 
     elif 0 <= int(op) < len(users):
-        if not AuthService.make_friendship(AuthService.get_current_user().id, users[op][0]):
-            print('Amizade Incompativel')
+        show_profile(users[op])
+        # if not AuthService.make_friendship(AuthService.get_current_user().id, users[op][0]):
+        #     print('Amizade Incompativel')
 
     else:
         # invalid input
         home()
         return
+
 
 def login():
     os.system('reset')
@@ -283,9 +302,9 @@ def login():
         print('Digite sua senha: ')
         senha = input()
         if senha == '-1':
-        	os.system('reset')
-        	initial()
-        	return
+            os.system('reset')
+            initial()
+            return
         print('-------------------------------------------------------------------')
 
     home()

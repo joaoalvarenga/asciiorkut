@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 from orkut.service import AuthService, PostService, SearchService
@@ -162,6 +164,7 @@ def new_post():
     my_posts()
     return
 
+
 def search_users():
     os.system('reset')
     print_header()
@@ -169,16 +172,29 @@ def search_users():
     print('Digite o nome do usuario que deseja procurar (ou -1 pra voltar):')
     nome = input()
     if nome == '-1':
+        home()
         return
+
     users = (SearchService.search_users(nome))
-    # known bug: searching for white space should return all users
-    output = '\n'.join(['{}. {}'.format(id, nome) for id, nome in enumerate(users)])
+    output = '\n'.join(['{}. {}'.format(indice, tuple[1]) for indice, tuple in enumerate(users)])
     print(output)
 
     print(str(len(users)) + '. Voltar')
     print('--------------------------------------------------------------------------------')
     op = get_op((0, (len(users))))
-    print("TODO :/")
+
+    if op == str(len(users)):
+        home()
+        return
+
+    elif 0 <= int(op) < len(users):
+        if not AuthService.make_friendship(AuthService.get_current_user().id, users[op][0]):
+            print('Amizade Incompativel')
+
+    else:
+        # invalid input
+        home()
+        return
 
 def login():
     os.system('reset')

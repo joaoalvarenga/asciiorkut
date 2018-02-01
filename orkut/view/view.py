@@ -5,6 +5,13 @@ import os
 from orkut.service import AuthService, PostService, SearchService
 from orkut.utils.utils import is_valid_email, is_valid_gender, is_valid_birthdate, check_isdigit_interval
 
+SYSTEM_CONST = 'clear'
+
+
+def print_orkut():
+    with open('orkut_img.txt') as f:
+        print(f.read())
+
 
 def print_header():
     with open('header.txt') as f:
@@ -23,22 +30,22 @@ def get_op(interval):
 
 
 def signup():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ CADASTRO ------------------------------')
-    print('---------------------------------------------------------  [-1] VOLTAR')
+    print('---------------------------- Insira [-1] a qualquer momento para voltar.')
 
     print('Digite seu nome: ')
     name = input()
     if name == '-1':
-        os.system('reset')
+        os.system(SYSTEM_CONST)
         initial()
         return
 
     print('Digite um email: ')
     email = input()
     if email == '-1':
-        os.system('reset')
+        os.system(SYSTEM_CONST)
         initial()
         return
 
@@ -46,21 +53,21 @@ def signup():
         print('Digite um email válido: ')
         email = input()
         if email == '-1':
-            os.system('reset')
+            os.system(SYSTEM_CONST)
             initial()
             return
 
     print('Digite uma senha: ')
     password = input()
     if password == '-1':
-        os.system('reset')
+        os.system(SYSTEM_CONST)
         initial()
         return
 
     print('Digite seu sexo (M ou F): ')
     gender = input()
     if gender == '-1':
-        os.system('reset')
+        os.system(SYSTEM_CONST)
         initial()
         return
 
@@ -68,14 +75,14 @@ def signup():
         print('Digite seu sexo válido (M ou F): ')
         gender = input()
         if gender == '-1':
-            os.system('reset')
+            os.system(SYSTEM_CONST)
             initial()
             return
 
     print('Digite sua data de nascimento (ANO-MES-DIA): ')
     birthdate = input()
     if birthdate == '-1':
-        os.system('reset')
+        os.system(SYSTEM_CONST)
         initial()
         return
 
@@ -83,7 +90,7 @@ def signup():
         print('Digite sua data de nascimento válida (ANO-MES-DIA): ')
         birthdate = input()
         if birthdate == '-1':
-            os.system('reset')
+            os.system(SYSTEM_CONST)
             initial()
             return
     print('-------------------------------------------------------------------')
@@ -93,7 +100,7 @@ def signup():
 
 
 def change_password():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ MEU PERFIL ------------------------------')
     print('Digite sua senha antiga')
@@ -117,7 +124,7 @@ def change_password():
 
 def show_profile(user):
     user.friends = AuthService.get_friends(user)
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print(user.name)
     print('Data de Nascimento: {}'.format(user.birthdate))
@@ -129,21 +136,25 @@ def show_profile(user):
     output = '\n\n'.join(
         ['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in last_posts])
     print(output + '\n')
+    is_friend = AuthService.is_friend(user)
     print('------------------------------------------------------------------------')
     print('1. Ver amigos')
-    if not AuthService.is_friend(user):
+    if not is_friend:
         print('2. Tornar amigo')
         print('3. Voltar')
     else:
         print('2. Voltar')
     print('--------------------------------------------------------------------------------')
-    op = get_op((1, 2))
+    if is_friend:
+        op = get_op((1, 2))
+    else:
+        op = get_op((1, 3))
 
     if op == 1:
         list_friends(user)
         return
     else:
-        if not AuthService.is_friend(user):
+        if not is_friend:
             if op == 2:
                 AuthService.make_friendship(AuthService.get_current_user(), user)
                 show_profile(user)
@@ -154,7 +165,7 @@ def show_profile(user):
 
 
 def list_friends(user):
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ AMIGOS ------------------------------')
     friends = user.friends
@@ -175,7 +186,7 @@ def list_friends(user):
 
 
 def my_profile():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ MEU PERFIL ------------------------------')
     user = AuthService.get_current_user()
@@ -205,7 +216,7 @@ def my_profile():
 
 
 def my_posts():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('---------------------- MINHAS PUBLICACOES -------------------------')
     output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in
@@ -226,7 +237,7 @@ def my_posts():
 
 
 def new_post():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ NOVA PUBLICACOES ------------------------------')
     print('Insira o conteúdo da publicação: ')
@@ -240,7 +251,7 @@ def new_post():
 
 
 def search_users():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ PESQUISA ---------------------------')
     print('Digite o nome do usuario que deseja procurar (ou -1 pra voltar):')
@@ -273,20 +284,19 @@ def search_users():
 
 
 def login():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ LOGIN ---------------------------------')
-    print('---------------------------------------------------------  [-1] VOLTAR')
-    print('Digite seu email: ')
+    print('Digite seu email (ou -1 para voltar): ')
     email = input()
     if email == '-1':
-        os.system('reset')
+        os.system(SYSTEM_CONST)
         initial()
         return
     print('Digite sua senha: ')
     senha = input()
     if senha == '-1':
-        os.system('reset')
+        os.system(SYSTEM_CONST)
         initial()
         return
     print('-------------------------------------------------------------------')
@@ -294,7 +304,7 @@ def login():
     while not AuthService.login(email, senha):
         print('------------------------------ LOGIN ------------------------------')
         print('Email ou senha incorretos :S')
-        print('Digite seu email: ')
+        print('Digite seu email (ou -1 para voltar): ')
         email = input()
         if email == '-1':
             initial()
@@ -302,7 +312,7 @@ def login():
         print('Digite sua senha: ')
         senha = input()
         if senha == '-1':
-            os.system('reset')
+            os.system(SYSTEM_CONST)
             initial()
             return
         print('-------------------------------------------------------------------')
@@ -311,13 +321,13 @@ def login():
 
 
 def home():
-    os.system('reset')
+    os.system(SYSTEM_CONST)
     print_header()
     print('------------------------------ MENU ------------------------------')
     print('1. Meu perfil')
     print('2. Minhas publicações')
     print('3. Pesquisar usuarios')
-    print('4. Sair')
+    print('4. Desconectar')
     print('-------------------------------------------------------------------')
     op = get_op((1, 4))
     if op == 1:
@@ -332,9 +342,15 @@ def home():
         search_users()
         return
 
+    elif op == 4:
+        initial()
+        return
+
 
 def initial():
+    os.system(SYSTEM_CONST)
     print_header()
+    print_orkut()
     print('------------------------------ MENU ------------------------------')
     print('1. Login')
     print('2. Cadastrar')

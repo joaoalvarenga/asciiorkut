@@ -24,29 +24,66 @@ def signup():
     os.system('reset')
     print_header()
     print('------------------------------ CADASTRO ------------------------------')
+    print('---------------------------------------------------------  [-1] VOLTAR')
+
     print('Digite seu nome: ')
     name = input()
+    if name == '-1':
+        os.system('reset')
+        initial()
+       	return
 
     print('Digite um email: ')
     email = input()
+    if email == '-1':
+        os.system('reset')
+        initial()
+       	return
+
     while not is_valid_email(email):
         print('Digite um email válido: ')
         email = input()
+        if email == '-1':
+        	os.system('reset')
+        	initial()
+       		return
 
     print('Digite uma senha: ')
     password = input()
+    if password == '-1':
+        os.system('reset')
+        initial()
+       	return
 
     print('Digite seu sexo (M ou F): ')
     gender = input()
+    if gender == '-1':
+        os.system('reset')
+        initial()
+       	return
+
     while not is_valid_gender(gender):
         print('Digite seu sexo válido (M ou F): ')
         gender = input()
+        if gender == '-1':
+        	os.system('reset')
+        	initial()
+       		return
 
     print('Digite sua data de nascimento (ANO-MES-DIA): ')
     birthdate = input()
+    if birthdate == '-1':
+        os.system('reset')
+        initial()
+       	return
+
     while not is_valid_birthdate(birthdate):
         print('Digite sua data de nascimento válida (ANO-MES-DIA): ')
         birthdate = input()
+        if birthdate == '-1':
+        	os.system('reset')
+        	initial()
+       		return
     print('-------------------------------------------------------------------')
 
     AuthService.signup(name, email, password, gender, birthdate)
@@ -131,7 +168,7 @@ def my_profile():
 def my_posts():
     os.system('reset')
     print_header()
-    print('------------------------------ MINHAS PUBLICACOES ------------------------------')
+    print('---------------------- MINHAS PUBLICACOES -------------------------')
     output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in
                           PostService.get_posts_from_current_user()])
     print(output)
@@ -183,26 +220,36 @@ def search_users():
 def login():
     os.system('reset')
     print_header()
-    print('------------------------------ LOGIN ------------------------------')
-    print('Digite seu email (ou -1 pra voltar): ')
+    print('------------------------------ LOGIN ---------------------------------')
+    print('---------------------------------------------------------  [-1] VOLTAR')
+    print('Digite seu email: ')
     email = input()
     if email == '-1':
+        os.system('reset')
         initial()
         return
     print('Digite sua senha: ')
     senha = input()
+    if senha == '-1':
+        os.system('reset')
+        initial()
+        return
     print('-------------------------------------------------------------------')
 
     while not AuthService.login(email, senha):
         print('------------------------------ LOGIN ------------------------------')
         print('Email ou senha incorretos :S')
-        print('Digite seu email ou (-1 pra voltar): ')
+        print('Digite seu email: ')
         email = input()
         if email == '-1':
             initial()
             return
         print('Digite sua senha: ')
         senha = input()
+        if senha == '-1':
+        	os.system('reset')
+        	initial()
+        	return
         print('-------------------------------------------------------------------')
 
     home()
@@ -237,7 +284,7 @@ def initial():
     print('1. Login')
     print('2. Cadastrar')
     print('3. Sair')
-    print('-------------------------------------------------------------------')
+    print('------------------------------------------------------------------')
     op = get_op((1, 3))
     if op == 1:
         login()

@@ -94,20 +94,30 @@ def list_friends():
         my_profile()
         return
     else:
-        print('{} {} {}'.format(friends[op].name, friends[op].birthdate, friends[op].gender))
+        # exibindo perfil
+        os.system('reset')
+        print_header()
+        friend = friends[op]
+        print(friend.name)
+        print('Data de Nascimento: {}'.format(friend.birthdate))
+        print('Sexo: {}'.format({'M': 'masculino', 'F': 'feminino'}[friend.gender]))
+        print('Email: {}'.format(friend.email))
+        print('\nUltimas publicacoes:\n')
+        last_posts = PostService.get_last_five_posts_from_actor(friend.actor)
+        output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in last_posts])
+        print(output + '\n')
+        print('------------------------------------------------------------------------')
+        print('1. Ver amigos')
+        print('2. Voltar')
+        print('--------------------------------------------------------------------------------')
+        op = get_op((1, 2))
 
-
-    if len(friends) > 0:
-        print('{}-{}. Para entrar no perfil de amigo'.format(2, len(friends)+2))
-        op = get_op((1, len(friends)+2))
         if op == 1:
-            my_profile()
+            list_friends()
+            return
         else:
             my_profile()
-    else:
-        op = get_op((1, 1))
-        if op == 1:
-            my_profile()
+            return
 
 
 def my_profile():

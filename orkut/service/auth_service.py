@@ -7,6 +7,9 @@ class AuthService(object):
 
     @staticmethod
     def get_current_user():
+        if AuthService.__CURRENT_USER:
+            AuthService.__CURRENT_USER = UserModel.find_by_email_and_password(AuthService.__CURRENT_USER.email,
+                                                                              AuthService.__CURRENT_USER.password)
         return AuthService.__CURRENT_USER
 
     @staticmethod
@@ -23,4 +26,16 @@ class AuthService(object):
         u = UserModel(email, name, birthdate, gender, password)
         u.save()
         AuthService.__CURRENT_USER = u
+
+    @staticmethod
+    def change_current_user_password(old, new):
+        u = AuthService.get_current_user()
+        if u:
+            if old == u.password:
+                u.password = new
+                u.save()
+                return True
+
+        return False
+
 

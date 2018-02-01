@@ -30,6 +30,11 @@ class UserModel(object):
                 cursor.execute('SELECT LAST_INSERT_ID();')
                 self.id = cursor.fetchone()[0]
             Config().get_db_connection().commit()
+        else:
+            with Config().get_db_connection().cursor() as cursor:
+                cursor.execute('UPDATE usuarios SET email="{}", nome="{}", data_nascimento="{}", sexo="{}", senha="{}" WHERE usuarios.codigo = {}'
+                               .format(self.email, self.name, self.birthdate, self.gender, self.password, self.id))
+            Config().get_db_connection().commit()
         return self.id
 
     @staticmethod
@@ -42,6 +47,13 @@ class UserModel(object):
             for u in cursor.fetchall():
                 yield UserModel(id=u[0], email=u[1], name=u[2], birthdate=u[3], gender=u[4], password=u[5], actor=u[6],
                                 publishable=u[7])
+
+    @staticmethod
+    def find_users(name):
+        with Config().get_db_connection().cursor() as cursor:
+            cursor.execute('SELECT nome FROM usuarios WHERE UPPER(nome) LIKE UPPER(\'%{}%\')'.format(name))
+            u = cursor.fetchone()
+            return u
 
     @staticmethod
     def find_by_email_and_password(email, password):

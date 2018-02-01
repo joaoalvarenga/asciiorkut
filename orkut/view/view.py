@@ -1,6 +1,6 @@
 import os
 
-from orkut.service import AuthService, PostService
+from orkut.service import AuthService, PostService, SearchService
 from orkut.utils.utils import is_valid_email, is_valid_gender, is_valid_birthdate, check_isdigit_interval
 
 
@@ -25,6 +25,7 @@ def signup():
     print_header()
     print('------------------------------ CADASTRO ------------------------------')
     print('---------------------------------------------------------  [-1] VOLTAR')
+
     print('Digite seu nome: ')
     name = input()
     if name == '-1':
@@ -86,6 +87,82 @@ def signup():
     print('-------------------------------------------------------------------')
 
     AuthService.signup(name, email, password, gender, birthdate)
+    home()
+
+
+def change_password():
+    os.system('reset')
+    print_header()
+    print('------------------------------ MEU PERFIL ------------------------------')
+    print('Digite sua senha antiga')
+    old = input()
+    print('Digite a nova senha')
+    new = input()
+    if not AuthService.change_current_user_password(old, new):
+        print('Senha antiga incorreta')
+        print('--------------------------------------------------------------------------------')
+        print('1. Tentar novamente')
+        print('2. Voltar')
+        print('--------------------------------------------------------------------------------')
+        op = get_op((1, 2))
+
+        if op == 1:
+            change_password()
+            return
+
+    my_profile()
+
+
+def list_friends():
+    os.system('reset')
+    print_header()
+    print('------------------------------ AMIGOS ------------------------------')
+    friends = AuthService.get_current_user().friends
+    output = '\n\n'.join(['{}. {}'.format(i+2, friend.name) for i, friend in enumerate(friends)])
+    print(output)
+    print('--------------------------------------------------------------------')
+    print('1. Voltar')
+    if len(friends) > 0:
+        print('{}-{}. Para entrar no perfil de amigo'.format(2, len(friends)+2))
+        op = get_op((1, len(friends)+2))
+        if op == 1:
+            my_profile()
+        else:
+            my_profile()
+    else:
+        op = get_op((1, 1))
+        if op == 1:
+            my_profile()
+
+
+def my_profile():
+    os.system('reset')
+    print_header()
+    print('------------------------------ MEU PERFIL ------------------------------')
+    user = AuthService.get_current_user()
+    print(user.name)
+    print('Data de Nascimento: {}'.format(user.birthdate))
+    print('Sexo: {}'.format({'M': 'masculino', 'F': 'feminino'}[user.gender]))
+    print('Email: {}'.format(user.email))
+    print('Quantidade de amigos: {}'.format(len(user.friends)))
+    print('------------------------------------------------------------------------')
+    print('1. Listar Amigos')
+    print('2. Mudar senha')
+    print('3. Voltar')
+    print('--------------------------------------------------------------------------------')
+    op = get_op((1, 3))
+
+    if op == 1:
+        list_friends()
+        return
+
+    elif op == 2:
+        change_password()
+        return
+
+    elif op == 3:
+        home()
+        return
 
 
 def my_posts():
@@ -94,10 +171,11 @@ def my_posts():
     print('---------------------- MINHAS PUBLICACOES -------------------------')
     output = '\n\n'.join(['Postado em: {}\nConteúdo: {}'.format(post.created_at, post.content) for post in
                           PostService.get_posts_from_current_user()])
-    print('-------------------------------------------------------------------')
+    print(output)
+    print('--------------------------------------------------------------------------------')
     print('1. Nova publicação')
     print('2. Voltar')
-    print('-------------------------------------------------------------------')
+    print('--------------------------------------------------------------------------------')
     op = get_op((1, 2))
 
     if op == 1:
@@ -121,6 +199,23 @@ def new_post():
     my_posts()
     return
 
+def search_users():
+    os.system('reset')
+    print_header()
+    print('------------------------------ PESQUISA ---------------------------')
+    print('Digite o nome do usuario que deseja procurar (ou -1 pra voltar):')
+    nome = input()
+    if nome == '-1':
+        return
+    users = (SearchService.search_users(nome))
+    # known bug: searching for white space should return all users
+    output = '\n'.join(['{}. {}'.format(id, nome) for id, nome in enumerate(users)])
+    print(output)
+
+    print(str(len(users)) + '. Voltar')
+    print('--------------------------------------------------------------------------------')
+    op = get_op((0, (len(users))))
+    print("TODO :/")
 
 def login():
     os.system('reset')
@@ -166,15 +261,20 @@ def home():
     print('------------------------------ MENU ------------------------------')
     print('1. Meu perfil')
     print('2. Minhas publicações')
-    print('3. Sair')
+    print('3. Pesquisar usuarios')
+    print('4. Sair')
     print('-------------------------------------------------------------------')
-    op = get_op((1, 3))
+    op = get_op((1, 4))
     if op == 1:
-        home()
+        my_profile()
         return
 
     elif op == 2:
         my_posts()
+        return
+
+    elif op == 3:
+        search_users()
         return
 
 
